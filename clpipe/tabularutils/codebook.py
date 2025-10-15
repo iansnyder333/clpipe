@@ -7,6 +7,7 @@ from clpipe.error_handler import exception_handler
 import numpy as np
 import os
 import click
+from pandas.api.types import is_float_dtype, is_integer_dtype, is_object_dtype
 
 
 @click.command()
@@ -56,10 +57,10 @@ def create_json_codebook(config_file=None, file_path=None, debug=False):
 
     data = pd.read_csv(file_path, delimiter=",")
 
-    possible_cat = [np.int64, np.object, np.float64]
+    dtype_checks = (is_integer_dtype, is_object_dtype, is_float_dtype)
     data_dict = {}
     for column in data.columns:
-        if data.dtypes[column] in possible_cat:
+        if any(check(data.dtypes[column]) for check in dtype_checks):
             if len(data[column].unique()) <= 12:
                 levels_dict = dict(
                     zip(

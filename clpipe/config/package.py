@@ -1,5 +1,6 @@
 PACKAGE_NAME = "clpipe"
-VERSION = "1.9.1.8"
+# Bump for Py3.11 compatibility (packaging-only change)
+VERSION = "1.9.2"
 
 DESCRIPTION = "clpipe: MRI processing pipeline for high performance clusters"
 REPO_URL = "https://github.com/cohenlabUNC/clpipe"
@@ -10,34 +11,39 @@ AUTHORS = (
 AUTHOR_EMAIL = "ycp6wm@virginia.edu"
 LICENSE = "MIT"
 
-# Python version tested against
-PYTHON_VERSION = "3.7"
-# Allows versions greater than the test baseline
+# Minimum supported Python (broaden to cover Py3.11)
+PYTHON_VERSION = "3.8"
 PYTHON_REQUIRES = f">={PYTHON_VERSION}"
 
 # List of all dependency packages, to be automatically installed alongside clpipe
-INSTALL_REQUIRES = [
-      'jsonschema==4.17.3',
-      'click==8.1.3',
-      'numpy==1.21.6',
-      'nipy==0.5.0',
-      'pandas==1.3.5',
-      'nibabel==4.0.2',
-      'scipy==1.2.2',
-      'psutil==5.9.5',
-      'parse==1.19.0',
-      'nilearn==0.9.0',
-      'dcm2bids==2.1.9',
-      'nipype==1.8.6',
-      'pybids>=0.15.6',
-      'templateflow==23.0.0',
-      "pydantic==1.10.7",
-      "matplotlib==3.5.3",
-      "heudiconv==0.12.2",
-      "tqdm==4.65.0",
-      "marshmallow-dataclass==8.5.14",
-      "PyYAML==6.0"
-],
+INSTALL_REQUIRES = (
+    [
+        # keep exact pins where they’re harmless; widen where Py3.11 needs it
+        "jsonschema>=4.17,<5",
+        "click>=8.1.3,<9",
+        # Py3.11-safe scientific stack
+        "numpy>=1.26,<2",  # conservative upper; NumPy 2.x is WIP across ecosystem
+        "scipy>=1.11,<1.12",
+        "pandas>=2.2,<2.3",
+        "nibabel>=5.2",  # Py3.11 support line
+        "nilearn>=0.10,<0.13",  # 0.10 supports modern Python; keep an upper cushion
+        # orchestration & BIDS/fMRIPrep deps
+        "dcm2bids==2.1.9",
+        "nipype>=1.8.6",  # works on 3.11 when traits < 6.4
+        "traits<6.4",
+        "pybids>=0.15.6",
+        "templateflow==23.0.0",
+        # utilities
+        "packaging>=23",  # replace any distutils/pkg_resources version parsing
+        "pydantic==1.10.7",
+        "matplotlib>=3.8",  # 3.8.x supports Python 3.11
+        "heudiconv==0.12.2",
+        "tqdm==4.65.0",
+        "marshmallow-dataclass==8.5.14",
+        "PyYAML>=6.0",
+    ],
+)
+
 
 PACKAGE_DATA = {"clpipe": ["R_scripts/*.R"]}
 

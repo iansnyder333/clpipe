@@ -1,0 +1,18 @@
+# Pinned, tested set for Python 3.11 deployments
+numpy==1.26.4
+scipy==1.11.4
+pandas==2.2.2
+nibabel==5.2.1
+nilearn==0.10.3
+nipype==1.8.6
+traits==6.3.2
+jsonschema==4.17.3
+click==8.1.7
+packaging==24.1
+PyYAML==6.0.2
+tqdm==4.65.0
+matplotlib==3.8.4
+templateflow==23.0.0
+heudiconv==0.12.2
+marshmallow-dataclass==8.5.14
+pybids==0.15.6

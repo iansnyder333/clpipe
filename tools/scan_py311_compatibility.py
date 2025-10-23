@@ -77,7 +77,9 @@ PY311_COMPATIBILITY_RULES: Dict[str, CompatibilityRule] = {
 def load_install_requires() -> Iterable[str]:
     """Load the ``INSTALL_REQUIRES`` sequence from the package config."""
 
-    spec = importlib.util.spec_from_file_location("clpipe_package_config", PACKAGE_CONFIG)
+    spec = importlib.util.spec_from_file_location(
+        "clpipe_package_config", PACKAGE_CONFIG
+    )
     if spec is None or spec.loader is None:
         raise RuntimeError("Unable to load clpipe.config.package module")
 

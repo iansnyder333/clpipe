@@ -2,7 +2,7 @@ import datetime
 import getpass
 import json
 import os
-import collections
+from collections.abc import Mapping
 import click
 from pkg_resources import resource_stream, resource_filename
 import shutil
@@ -265,13 +265,13 @@ class ClpipeConfigParser:
                 "OutputSuffix"
             ] = output_suffix
         if log_dir is not None:
-            self.config["ProcessingStreams"][index][target_output][
-                "LogDirectory"
-            ] = os.path.abspath(log_dir)
+            self.config["ProcessingStreams"][index][target_output]["LogDirectory"] = (
+                os.path.abspath(log_dir)
+            )
         else:
-            self.config["ProcessingStreams"][index][target_output][
-                "LogDirectory"
-            ] = os.path.join(self.config["ProjectDirectory"], "logs", log_target)
+            self.config["ProcessingStreams"][index][target_output]["LogDirectory"] = (
+                os.path.join(self.config["ProjectDirectory"], "logs", log_target)
+            )
         os.makedirs(self.config[target_output]["LogDirectory"], exist_ok=True)
 
     def update_runlog(self, subjects, whatran):
@@ -303,7 +303,7 @@ class GLMConfigParser:
 
 def update(d, u):
     for k, v in u.items():
-        if isinstance(v, collections.Mapping):
+        if isinstance(v, Mapping):
             d[k] = update(d.get(k, {}), v)
         else:
             d[k] = v
